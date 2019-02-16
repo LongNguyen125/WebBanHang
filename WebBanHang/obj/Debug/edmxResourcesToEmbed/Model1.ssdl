@@ -1,37 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="BanHangModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityType Name="LoaiMH">
+<Schema Namespace="BanHangModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="BanHangModelStoreContainer">
+    <EntitySet Name="LoaiMHs" EntityType="BanHangModel.Store.LoaiMHs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MatHangs" EntityType="BanHangModel.Store.MatHangs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="sysdiagrams" EntityType="BanHangModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_MatHang_LoaiMH" Association="BanHangModel.Store.FK_MatHang_LoaiMH">
+      <End Role="LoaiMH" EntitySet="LoaiMHs" />
+      <End Role="MatHang" EntitySet="MatHangs" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="LoaiMHs">
     <Key>
       <PropertyRef Name="MaLoai" />
     </Key>
     <Property Name="MaLoai" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="TenLoai" Type="nvarchar" MaxLength="50" />
+    <Property Name="TenLoai" Type="nvarchar" Nullable="true" MaxLength="50" />
   </EntityType>
-  <EntityType Name="MatHang">
+  <EntityType Name="MatHangs">
     <Key>
       <PropertyRef Name="MaMH" />
     </Key>
-    <Property Name="TenMatHang" Type="nvarchar(max)" />
-    <Property Name="Gia" Type="float" />
-    <Property Name="NgayThem" Type="datetime" />
-    <Property Name="HinhAnh" Type="nvarchar(max)" />
-    <Property Name="SoLuong" Type="int" />
+    <Property Name="TenMatHang" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Gia" Type="float" Nullable="true" />
+    <Property Name="NgayThem" Type="datetime" Nullable="true" />
+    <Property Name="HinhAnh" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="SoLuong" Type="int" Nullable="true" />
     <Property Name="MaMH" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="MaLoai" Type="int" />
+    <Property Name="MaLoai" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
       <PropertyRef Name="diagram_id" />
     </Key>
-    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
     <Property Name="principal_id" Type="int" Nullable="false" />
     <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="version" Type="int" />
-    <Property Name="definition" Type="varbinary(max)" />
+    <Property Name="version" Type="int" Nullable="true" />
+    <Property Name="definition" Type="varbinary(max)" Nullable="true" />
   </EntityType>
   <Association Name="FK_MatHang_LoaiMH">
-    <End Role="LoaiMH" Type="Self.LoaiMH" Multiplicity="0..1" />
-    <End Role="MatHang" Type="Self.MatHang" Multiplicity="*" />
+    <End Role="LoaiMH" Type="BanHangModel.Store.LoaiMHs" Multiplicity="0..1" />
+    <End Role="MatHang" Type="BanHangModel.Store.MatHangs" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="LoaiMH">
         <PropertyRef Name="MaLoai" />
@@ -41,13 +50,4 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="BanHangModelStoreContainer">
-    <EntitySet Name="LoaiMH" EntityType="Self.LoaiMH" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="MatHang" EntityType="Self.MatHang" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK_MatHang_LoaiMH" Association="Self.FK_MatHang_LoaiMH">
-      <End Role="LoaiMH" EntitySet="LoaiMH" />
-      <End Role="MatHang" EntitySet="MatHang" />
-    </AssociationSet>
-  </EntityContainer>
 </Schema>
